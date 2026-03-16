@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USER GUIDE SISTEM ERP ASIANTEX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            scroll-behavior: smooth; 
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .sidebar-link { 
+            transition: all 0.2s ease; 
+            border-left: 3px solid transparent; 
+            cursor: pointer; 
+            font-weight: 500;
+        }
+
+        .sidebar-link.active { 
+            background-color: #f8fafc; 
+            color: #1e40af; 
+            border-left-color: #1e40af; 
+            font-weight: 800; 
+        }
+
+        .content-section { display: none; }
+        .content-section.active { display: block; animation: fadeIn 0.6s ease-out; }
+
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        .step-card { 
+            background: white; 
+            padding: 2.5rem; 
+            border-radius: 1.5rem; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); 
+            margin-bottom: 2.5rem; 
+            border: 1px solid #f1f5f9; 
+        }
+
+        .important-note { 
+            background: #fffbeb; 
+            border-left: 6px solid #f59e0b; 
+            padding: 1.5rem; 
+            border-radius: 0.75rem; 
+            margin: 1.5rem 0; 
+        }
+
+        code { 
+            background: #eff6ff; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-family: monospace; 
+            font-weight: 700; 
+            color: #1e40af; 
+        }
+
+        .nav-path {
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px dashed #cbd5e1;
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        .step-item { 
+            display: flex; 
+            align-items: flex-start; 
+            margin-bottom: 1rem; 
+            line-height: 1.6;
+        }
+
+        .step-number { 
+            background: #1e40af; 
+            color: white; 
+            width: 22px; 
+            height: 22px; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 50%; 
+            font-size: 11px; 
+            font-weight: 800; 
+            margin-right: 12px; 
+            flex-shrink: 0; 
+            margin-top: 2px;
+        }
+
+        .sub-step-box {
+            margin-left: 2.25rem;
+            margin-bottom: 1.5rem;
+            padding: 1.25rem;
+            border-radius: 1rem;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 0 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* COMPACT STRAIGHT SIDE POINTER SYSTEM */
+        .image-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: visible; 
+            border: 2px solid #e2e8f0;
+            margin: 2.5rem 3rem; 
+            background: #f8fafc;
+            min-height: 100px;
+        }
+        
+        .image-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        
+        .marker {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            background: #ef4444;
+            border: 2px solid white;
+            border-radius: 50%; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 13px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        .marker::after {
+            content: '';
+            position: absolute;
+            height: 2px;
+            background: #ef4444;
+            top: 50%;
+            z-index: -1;
+            width: var(--line-w, 20px); /* Default panjang garis 20px */
+        }
+
+        .marker-left { left: calc(-1 * var(--line-w, 20px)); } 
+        .marker-left::after { left: 100%; }
+
+        .marker-right { right: calc(-1 * var(--line-w, 20px)); } 
+        .marker-right::after { right: 100%; }
+
+        .broken-img-msg {
+            display: none;
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+        }
+
+        img.broken + .broken-img-msg { display: block; }
+        img.broken { display: none; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <header class="lg:hidden bg-slate-900 text-white p-5 flex justify-between items-center sticky top-0 z-50 shadow-2xl">
+        <h1 class="font-black tracking-tighter text-xl uppercase">Asiantex ERP</h1>
+        <button id="menuToggle" class="p-2"><i class="fas fa-bars text-2xl"></i></button>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 bg-white w-80 border-r border-slate-200 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-40 lg:sticky lg:top-0 lg:h-screen overflow-y-auto">
+            <div class="p-8">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="bg-blue-600 p-3 rounded-xl text-white">
+                        <i class="fas fa-industry text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-black text-slate-900 leading-none text-lg">ASIANTEX</h2>
+                        <p class="text-[9px] text-blue-600 font-bold tracking-widest uppercase mt-1">Sistem ERP Guide</p>
+                    </div>
+                </div>
+
+                <nav class="space-y-1">
+                    <p class="sidebar-title">Utama</p>
+                    <a onclick="showSection('intro')" class="sidebar-link active flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-home w-5 text-slate-400"></i> <span>Beranda</span>
+                    </a>
+
+                    <p class="sidebar-title mt-8">1. Purchasing</p>
+                    <a onclick="showSection('purchase-a')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-shopping-bag w-5 text-emerald-500"></i> <span>A. PO Beli / Restock</span>
+                    </a>
+                    <a onclick="showSection('purchase-b')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-sync w-5 text-emerald-500"></i> <span>B. PO Maklon</span>
+                    </a>
+
+                    <p class="sidebar-title mt-8">2. Manufacturing</p>
+                    <a onclick="showSection('manufacturing')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-tools w-5 text-purple-500"></i> <span>Pembuatan MO</span>
+                    </a>
+
+                    <p class="sidebar-title mt-8">3. Sales</p>
+                    <a onclick="showSection('sales')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-chart-line w-5 text-blue-500"></i> <span>Proses Penjualan</span>
+                    </a>
+
+                    <p class="sidebar-title mt-8">4. Inventory</p>
+                    <a onclick="showSection('inv-a')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-boxes w-5 text-orange-500"></i> <span>A. Replenishment</span>
+                    </a>
+                    <a onclick="showSection('inv-b')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-truck w-5 text-orange-500"></i> <span>B. Pengiriman Pabrik</span>
+                    </a>
+                    <a onclick="showSection('inv-c')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-clipboard-list w-5 text-orange-500"></i> <span>C. Scrap & Adjustment</span>
+                    </a>
+
+                    <p class="sidebar-title mt-8">5. Accounting & Tax</p>
+                    <a onclick="showSection('accounting')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-book w-5 text-indigo-500"></i> <span>A. Journal Manual</span>
+                    </a>
+                    <a onclick="showSection('xml-efaktur')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-file-code w-5 text-indigo-500"></i> <span>B. XML e-Faktur</span>
+                    </a>
+                    <a onclick="showSection('upload-coretax')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-file-excel w-5 text-indigo-500"></i> <span>C. Upload Coretax Excel</span>
+                    </a>
+                    <a onclick="showSection('invoice-gabungan')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-file-invoice w-5 text-indigo-500"></i> <span>D. Invoice Gabungan</span>
+                    </a>
+
+                    <p class="sidebar-title mt-8">6. Reporting</p>
+                    <a onclick="showSection('report-sales')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-file-invoice-dollar w-5 text-rose-500"></i> <span>A. Report Daily Sales</span>
+                    </a>
+                    <a onclick="showSection('report-stock')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-warehouse w-5 text-rose-500"></i> <span>B. Report Daily Stock</span>
+                    </a>
+
+                    <p class="sidebar-title mt-8">Keamanan</p>
+                    <a onclick="showSection('security')" class="sidebar-link flex items-center gap-4 px-5 py-3 rounded-xl text-sm hover:bg-slate-50">
+                        <i class="fas fa-user-shield w-5 text-slate-400"></i> <span>Ganti Password</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 min-h-screen">
+            <div class="max-w-4xl mx-auto p-8 lg:p-16">
+                
+                <!-- Section: Intro -->
+                <div id="intro" class="content-section active">
+                    <div class="text-center mb-16">
+                        <h1 class="text-4xl font-black text-slate-900 mb-4 tracking-tight uppercase">User Guide Asiantex</h1>
+                        <p class="text-slate-500 text-lg">Panduan operasional lengkap untuk penggunaan sistem ERP Asiantex.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div onclick="showSection('purchase-a')" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center">
+                            <i class="fas fa-shopping-cart text-emerald-500 text-3xl mb-4"></i>
+                            <h3 class="font-bold text-xl mb-2">Purchasing</h3>
+                            <p class="text-slate-500 text-sm">Pembuatan PO, Beli Barang, dan Maklon.</p>
+                        </div>
+                        <div onclick="showSection('manufacturing')" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center">
+                            <i class="fas fa-industry text-purple-500 text-3xl mb-4"></i>
+                            <h3 class="font-bold text-xl mb-2">Manufacturing</h3>
+                            <p class="text-slate-500 text-sm">Proses MO dan Produksi Barang.</p>
+                        </div>
+                        <div onclick="showSection('sales')" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center">
+                            <i class="fas fa-tag text-blue-500 text-3xl mb-4"></i>
+                            <h3 class="font-bold text-xl mb-2">Sales</h3>
+                            <p class="text-slate-500 text-sm">Penjualan, Invoice, dan Penagihan.</p>
+                        </div>
+                        <div onclick="showSection('inv-a')" class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center">
+                            <i class="fas fa-warehouse text-orange-500 text-3xl mb-4"></i>
+                            <h3 class="font-bold text-xl mb-2">Inventory</h3>
+                            <p class="text-slate-500 text-sm">Replenishment, Scrap, dan Adjustment.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. Purchasing A -->
+                <div id="purchase-a" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">1. Proses Purchasing</h2>
+                    <h3 class="text-xl font-bold text-emerald-600 mb-8">A. Proses pembuatan PO untuk beli / restock barang</h3>
+                    <div class="step-card">
+                        <div class="nav-path font-bold text-sm">Navigasi : Klik Purchase &rarr; Orders &rarr; Purchase Orders</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik <strong>Purchase &rarr; Orders &rarr; Purchase Orders</strong></p></div>
+                            <div class="step-item"><span class="step-number">2</span><p>Klik <strong>New</strong></p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPO1.png" alt="PO Navigation" onerror="this.classList.add('broken')">
+
+                                <div class="marker marker-left" style="top: 50%;">2</div>
+                                <div class="broken-img-msg">Dashboard Purchase Orders</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">3</span><p>Pilih <strong>Vendor</strong></p></div>
+                            <div class="step-item"><span class="step-number">4</span><p>Isikan <strong>Vendor Reference</strong> jika ada referensi yang ingin ditambahkan pada PO, misal simpan no surat jalan vendor, dll</p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPO2.png" alt="PO Form View" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 33%;">3</div>
+                                <div class="marker marker-left" style="top: 45%;">4</div>
+                                <div class="broken-img-msg">Form RFQ / PO</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">5</span><p>Pilih barang yang ingin dibeli, ada 2 opsi:</p></div>
+                            <div class="sub-step-box bg-slate-50 border-slate-200 text-sm">
+                                <p>&bull; Klik <strong>add a product</strong>, ketikkan nama item yang ingin dibeli atau</p>
+                                <p>&bull; Klik <strong>Catalog</strong>, pilih barang yang ingin dibeli, isikan quantity, klik <strong>Back to Quotation</strong></p>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">6</span><p>Klik <strong>Confirm Order</strong></p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPO4.png" alt="Confirm Order" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 50%;">6</div>
+                                <div class="broken-img-msg">Tombol Confirm Order</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">7</span><p>Jika barang sudah diterima, klik tombol <strong>Receive Product</strong> / klik <strong>Receipt</strong> (box di tengah atas)</p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPO5.png" alt="Receipt Button" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 50%;">7</div>
+                                <div class="broken-img-msg">Smart Button Receipt</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">8</span><p>Klik <strong>Validate</strong> jika barang sudah diterima</p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPO6.png" alt="Validate PO" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 80%;">8</div>
+                                <div class="broken-img-msg">Tombol Validate</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">9</span><p>Klik nomor PO pada kiri atas untuk kembali ke halaman PO</p></div>
+                            <div class="step-item"><span class="step-number">10</span><p>Jika ingin buat Bill, klik <strong>Create Bill</strong></p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPO7.png" alt="Create Bill Button" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 88%;">10</div>
+                                <div class="broken-img-msg">Tombol Create Bill</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">11</span><p>Isikan <strong>Bill Date</strong></p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPO8.png" alt="Bill Date Field" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 15%;">11</div>
+                                <div class="broken-img-msg">Pengisian Tanggal Bill</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">12</span><p>Klik <strong>Confirm</strong></p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPO9.png" alt="Confirm Bill" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 50%;">12</div>
+                                <div class="broken-img-msg">Tombol Confirm Bill</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">13</span><p>Jika Bill sudah dibayar, klik <strong>Pay</strong>, klik <strong>Create Payment</strong></p></div>
+                            <div class="step-item"><span class="step-number">14</span><p>Jika ingin cetak Bill, klik <strong>Print</strong></p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. Purchasing B -->
+                <div id="purchase-b" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">1. Proses Purchasing</h2>
+                    <h3 class="text-xl font-bold text-emerald-600 mb-8">B. Proses pembuatan PO untuk pemesanan kain ke maklon</h3>
+                    <div class="step-card">
+                        <div class="nav-path font-bold text-sm">Navigasi : Klik Purchase &rarr; Orders &rarr; Purchase Orders</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik <strong>Purchase &rarr; Orders &rarr; Purchase Orders</strong></p></div>
+                            <div class="step-item"><span class="step-number">2</span><p>Klik <strong>New</strong></p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPOM2.png" alt="PO Maklon New" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 60%;">2</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">3</span><p>Pilih Vendor <strong>Setia Busanatex</strong></p></div>
+                            <div class="step-item"><span class="step-number">4</span><p>Isikan <strong>Vendor Reference</strong> jika ada referensi yang ingin ditambahkan pada PO, misal simpan no surat jalan vendor, dll</p></div>
+                            <div class="step-item"><span class="step-number">5</span><p>Pilih barang <strong>KAIN GREY</strong> (pilih product sesuai jenis kain grey yang akan dikirimkan), caranya Klik <strong>add a product</strong>, ketikan nama item yang ingin dibeli</p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPOM5.png" alt="PO Maklon Details" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 36%;">3</div>
+                                <div class="marker marker-left" style="top: 42%;">4</div>
+                                <div class="marker marker-left" style="top: 68%;">5</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">6</span><p>Klik <strong>Confirm Order</strong></p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPOM6.png" alt="PO Maklon Confirm" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 73%;">6</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">7</span><p>Jika kain grey sudah dikirimkan dari toko ke pabrik maklon / setia busanatex, klik <strong>Resupply</strong> (box di tengah atas)</p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPOM7.png" alt="PO Maklon Resupply" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 50%;">7</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">8</span><p>Klik <strong>Validate</strong> jika barang sudah dikirim</p></div>
+                            <div class="image-container">
+                                <img src="ProsesPembuatanPOM8.png" alt="PO Maklon Validate" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 78%;">8</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">9</span><p>Klik nomor PO pada kiri atas untuk kembali ke halaman PO</p></div>
+
+                            <div class="important-note">
+                                <p class="font-bold mb-2 text-blue-900 uppercase text-sm">Jika dari pabrik maklon sudah mengirimkan kembali kain celup, klik tombol Receive Subcon pada masing-masing baris product Kain Grey:</p>
+                                <div class="image-container">
+                                    <img src="ProsesPembuatanPOM9.png" alt="Receive Subcon Button" onerror="this.classList.add('broken')">
+                                    <div class="marker marker-right" style="top: 50%;">9</div>
+                                </div>
+                                <div class="space-y-2 text-sm text-slate-700">
+                                    <p>&bull; Isikan <strong>Nomor SJ</strong></p>
+                                    <p>&bull; Isikan <strong>Tanggal SJ</strong></p>
+                                    <p>&bull; Pilih <strong>Receive Type</strong> / tipe penerimaan full atau partial quantity</p>
+                                    <p>&bull; Pilih product <strong>kain warna</strong> yang dikirimkan</p>
+                                    <p>&bull; Pilih <strong>bill of material</strong> yang sesuai</p>
+                                    <p>&bull; Isikan jumlah dalam kg untuk <strong>chemical warna & jasa celup</strong></p>
+                                    <p>&bull; Klik <strong>Confirm</strong></p>
+                                </div>
+                                <div class="image-container">
+                                    <img src="ProsesPembuatanPOM10.png" alt="Subcon Receive Modal" onerror="this.classList.add('broken')">
+                                    <div class="marker marker-left" style="top: 25%;">SJ</div>
+                                    <div class="marker marker-left" style="top: 92%;">CB</div>
+                                </div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">10</span><p>Setelah confirm receive subcon, user akan diarahkan ke halaman <strong>manufacture order</strong>. User bisa print <strong>Work Order / Kartu Proses</strong></p></div>
+                            <div class="step-item"><span class="step-number">11</span><p>Lakukan dan sesuaikan penerimaan untuk semua barang dari busanatex</p></div>
+                            <div class="step-item"><span class="step-number">12</span><p>Jika ingin buat Bill, klik <strong>Create Bill</strong> &rarr; Isi <strong>Bill Date</strong> &rarr; <strong>Confirm</strong> &rarr; <strong>Pay</strong> &rarr; <strong>Print</strong></p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Manufacturing -->
+                <div id="manufacturing" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">2. Proses Manufacturing</h2>
+                    <h3 class="text-xl font-bold text-purple-600 mb-8">Proses penyelesaian MO untuk proses manufaktur barang</h3>
+                    <div class="step-card">
+                        <div class="nav-path font-bold text-sm">Navigasi : Klik Manufacturing &rarr; Operations &rarr; Manufacturing Orders</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik <strong>Manufacturing &rarr; Operations &rarr; Manufacturing Orders</strong></p></div>
+                            <div class="step-item"><span class="step-number">2</span><p>Klik dokumen <strong>Manufacturing Orders</strong> yang ingin diproses</p></div>
+                            <div class="image-container">
+                                <img src="ProsesPenyelesaianMO1.png" alt="MO Detail" onerror="this.classList.add('broken')">
+                                <div class="broken-img-msg">Detail Dokumen Manufacturing Order</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">3</span><p>Isikan <strong>quantity</strong>, berapa banyak barang yang akan dibuat</p></div>
+                            
+                            <div class="step-item"><span class="step-number">4</span><p>Klik <strong>Confirm</strong></p></div>
+                            <div class="image-container">
+                                <img src="ProsesPenyelesaianMO2.png" alt="Confirm MO" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 72%;">4</div>
+                                <div class="broken-img-msg">Tombol Confirm</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">5</span><p>Pada bagian <strong>Component Status</strong>, pastikan statusnya <strong>Available</strong> yang menandakan semua bahan produksi tersedia, apabila <strong>Not Available</strong>, artinya ada barang yang kurang</p></div>
+                            <div class="step-item"><span class="step-number">6</span><p>Pada bagian <strong>Forecast Component</strong>, akan terlihat untuk tiap komponen tersebut apakah status itemnya tersedia</p></div>
+                            
+                            <div class="step-item"><span class="step-number">7</span><p>Selanjutnya, klik <strong>Produce All</strong> untuk memulai produksi. Produce All ini juga bisa diklik apabila status komponen barang tidak tersedia secara sistem, tetapi akan mengakibatkan stok pada sistem minus</p></div>
+                            <div class="image-container">
+                                <img src="ProsesPenyelesaianMO3.png" alt="Produce All" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 72%;">7</div>
+                                <div class="broken-img-msg">Tombol Produce All</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">8</span><p>Untuk melakukan <strong>print label</strong>, pada halaman MO, klik <strong>Print QR Code</strong>, isikan jumlah label yang ingin diprint, klik <strong>Print Labels</strong></p></div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="image-container">
+                                    <img src="ProsesPenyelesaianMO4.png" alt="Print QR Code Button" onerror="this.classList.add('broken')">
+                                    <div class="marker marker-left" style="top: 72%;">8</div>
+                                    <div class="broken-img-msg">Tombol Print QR Code</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Sales -->
+                <div id="sales" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">3. Proses Penjualan</h2>
+                    <h3 class="text-xl font-bold text-blue-600 mb-8">Proses penjualan barang</h3>
+                    <div class="step-card">
+                        <div class="nav-path font-bold text-sm">Navigasi : Klik Sales &rarr; Orders &rarr; Orders</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik <strong>New</strong></p></div>
+                            <div class="step-item"><span class="step-number">2</span><p>Isikan <strong>Customer</strong>. Ketik nama customer, jika customer belum ada klik <strong>create</strong> pada kolom yang tersedia</p></div>
+                            <div class="step-item"><span class="step-number">3</span><p>Pada bagian <strong>pricelist</strong>, pilih price list / harga dari produk yang dijual. Jumlah stok akan mengikuti juga pricelist yang dipilih, toko / pabrik</p></div>
+                            <div class="image-container">
+                                <img src="SOtoko1.png" alt="Sales Order Form" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 32%;">2</div>
+                                <div class="marker marker-right" style="top: 36%;">3</div>
+                                <div class="broken-img-msg">Form Sales Order Baru</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">4</span><p>Pada bagian <strong>order lines</strong>, klik <strong>catalog</strong> untuk melihat daftar barang. Cari produk berdasarkan tipe / variant. Klik barang yang ingin dijual, lalu isikan <strong>quantity</strong>. Klik <strong>back to quotation</strong> pada kiri atas</p></div>
+                            <div class="image-container">
+                                <img src="SOtoko2.png" alt="Sales Catalog" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 8.5%;">4</div>
+                                <div class="broken-img-msg">Pilihan Barang di Catalog</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">5</span><p>Klik <strong>confirm</strong></p></div>
+                            <div class="image-container">
+                                <img src="SOtoko3.png" alt="Confirm SO Button" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 45%;">5</div>
+                                <div class="broken-img-msg">Tombol Confirm Sales Order</div>
+                            </div>
+
+                            <div class="important-note">
+                                <p class="font-bold mb-2 text-blue-900 uppercase">Apabila pada SO yang dibuat, ada barang yang tidak ada stoknya, maka akan tampil box konfirmasi. Disini bisa terlihat, untuk masing - masing barang yang akan dijual, berapa item yang dibutuhkan, berapa yang tersedia, berapa kurangnya.</p>
+                                <p class="text-sm mb-2 font-bold uppercase">Ada 2 opsi yang bisa dilakukan jika barang kurang:</p>
+                                <ul class="text-sm list-disc ml-5 space-y-2">
+                                    <li><strong>Klik Close</strong>, lalu edit sesuai quantity yang tersedia / delete barang yang tidak ada stoknya dari order lines, lalu klik confirm kembali</li>
+                                    <li><strong>Klik Confirm with Availably Items Only</strong>, untuk melanjutkan SO dengan barang yang ada saja, lalu sistem akan buat SO baru untuk sisa barang yang tidak tersedia stoknya</li>
+                                </ul>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">6</span><p>Klik <strong>Delivery</strong> pada bagian tengah atas &rarr; Klik <strong>Validate</strong> jika barang sudah siap dikirim</p></div>
+                            <div class="image-container">
+                                <img src="SOtoko4.png" alt="Delivery Smart Button" onerror="this.classList.add('broken')">
+                                <div class="marker marker-right" style="top: 36%;">6</div>
+                                <div class="broken-img-msg">Tombol Delivery</div>
+                            </div>
+                            <div class="image-container">
+                                <img src="SOtoko5.png" alt="Validate Delivery" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 58.5%;">6</div>
+                                <div class="broken-img-msg">Tombol Validate Pengiriman</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">7</span><p><strong>Print surat jalan / packing list</strong> jika dibutuhkan</p></div>
+                            <div class="step-item"><span class="step-number">8</span><p>Klik nomor SO di kiri atas untuk kembali ke halaman SO</p></div>
+                            
+                            <div class="step-item"><span class="step-number">9</span><p>Jika ingin buat <strong>Invoice</strong>, klik <strong>Create Invoice</strong> &rarr; Pilih <strong>Regular Invoice</strong>, klik <strong>Create Invoice</strong> &rarr; <strong>Confirm</strong></p></div>
+                            <div class="image-container">
+                                <img src="SOtoko6.png" alt="Create Invoice Button" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 45%;">9</div>
+                                <div class="broken-img-msg">Tombol Create Invoice</div>
+                            </div>
+                            <div class="image-container">
+                                <img src="SOtoko7.png" alt="Regular Invoice Popup" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 33%;">9</div>
+                                <div class="marker marker-left" style="top: 88%;">9</div>
+                                <div class="broken-img-msg">Pop-up Pilihan Invoice</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">10</span><p>Jika Invoice sudah dibayar, klik <strong>Pay</strong> &rarr; <strong>Create Payment</strong> &rarr; <strong>Print</strong></p></div>
+                            <div class="image-container">
+                                <img src="SOtoko8.png" alt="Pay Button" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 75%;">10</div>
+                                <div class="broken-img-msg">Tombol Pay</div>
+                            </div>
+                            <div class="image-container">
+                                <img src="SOtoko9.png" alt="Payment Form" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 90%;">10</div>
+                                <div class="broken-img-msg">Form Pembayaran</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Inventory A -->
+                <div id="inv-a" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">4. Proses Inventory</h2>
+                    <h3 class="text-xl font-bold text-orange-600 mb-8">A. Proses pemesanan / restock barang dari pabrik</h3>
+                    <div class="step-card">
+                        <div class="nav-path font-bold text-sm">Navigasi : Klik Inventory &rarr; Operations &rarr; Replenishment</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik menu <strong>Operations</strong> lalu pilih <strong>Replenishment</strong></p></div>
+                            <div class="image-container">
+                                <img src="ReplenishmentNew.png" onerror="this.classList.add('broken')">
+                               
+                            </div>
+                            <div class="step-item"><span class="step-number">2</span><p>Cari / Ketik produk / variant yang ingin di restock</p></div>
+                            <div class="step-item"><span class="step-number">3</span><p>Pada menu ini, perhatikan kolom On Hand, Forecast, Min, Max, To Order:</p></div>
+                            <div class="sub-step-box bg-slate-50 border-slate-200 text-sm">
+                                <p>&bull; <strong>On hand</strong> : jumlah barang yang tersedia pada toko saat ini</p>
+                                <p>&bull; <strong>Forecast</strong> : perkiraan jumlah barang di toko, dikurangi barang yang akan dijual / dikirimkan ke customer</p>
+                                <p>&bull; <strong>Min & Max</strong> : jumlah minimal & maksimal stok barang dalam toko</p>
+                                <p>&bull; <strong>To Order</strong> : jumlah barang yang akan dipesan. Secara default, pada bagian ini akan terisikan selisih antara jumlah maksimal & jumlah barang di toko saat ini</p>
+                            </div>
+                            <div class="image-container">
+                                <img src="Replenishment2.png" onerror="this.classList.add('broken')">
+                                <div class="marker marker-right" style="top: 15%;">3</div>
+                            </div>
+                            <div class="step-item"><span class="step-number">4</span><p>Isikan jumlah barang yang ingin dipesan pada kolom <strong>To Order</strong> / biarkan sesuai jumlah yang terisi apabila sudah sesuai</p></div>
+                            <div class="image-container">
+                                <img src="Replenishment3.png" onerror="this.classList.add('broken')">
+                                <div class="marker marker-right" style="top: 50%;">4</div>
+                            </div>
+                            <div class="step-item"><span class="step-number">5</span><p>Checklist setiap barang yang ingin dipesan dari pabrik</p></div>
+                            <div class="step-item"><span class="step-number">6</span><p>Klik <strong>Replenish</strong> pada bagian tengah atas, pilih <strong>Order</strong></p></div>
+                            <div class="step-item"><span class="step-number">7</span><p>Selanjutnya, dokumen pemesanan akan terbuat. Tinggal tunggu dari pabrik kirim barang. Setelah dari pabrik kirim barang, pihak toko harus menerima barang tersebut dalam sistem: Klik <strong>Inventory &rarr; Operations &rarr; Receipts</strong></p></div>
+                            <div class="step-item"><span class="step-number">8</span><p>Cari dokumen penerimaan, lalu klik dokumen tersebut &rarr; Klik <strong>Validate</strong>. Stok barang akan tersedia kembali pada sistem</p></div>
+                            <div class="image-container">
+                                <img src="Replenishment4.png" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 16%;">8</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Inventory B -->
+                <div id="inv-b" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">4. Proses Inventory</h2>
+                    <h3 class="text-xl font-bold text-orange-600 mb-8">B. Proses pengiriman pesanan pabrik ke toko</h3>
+                    <div class="step-card">
+                        <div class="nav-path font-bold text-sm">Navigasi : Klik Inventory &rarr; Operations &rarr; Delivery</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Cari dokumen pengiriman, lalu klik dokumen tersebut</p></div>
+                            <div class="step-item"><span class="step-number">2</span><p>Klik <strong>Validate</strong></p></div>
+                            <div class="image-container">
+                                <img src="PengirimanPabrik1.png" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 16%;">2</div>
+                            </div>
+                            <div class="step-item"><span class="step-number">3</span><p><strong>Print surat jalan / packing list</strong> jika dibutuhkan</p></div>
+                            <div class="image-container">
+                                <img src="PengirimanPabrik2.png" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 16%;">3</div>
+                            </div>
+                            <div class="step-item"><span class="step-number">4</span><p>Infokan ke orang toko bahwa barang sudah dikirim</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Inventory C -->
+                <div id="inv-c" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">4. Proses Inventory</h2>
+                    <h3 class="text-xl font-bold text-orange-600 mb-8">C. Scrap & Adjustment</h3>
+                    
+                    <!-- Sub-section: Scrap -->
+                    <div class="step-card">
+                        <h4 class="font-bold border-b pb-2 mb-4 uppercase text-sm text-slate-600">Proses scrap barang, untuk mengeluarkan barang dari sistem inventory, diluar dari transaksi biasa (seperti pemakaian solar):</h4>
+                        <div class="nav-path font-bold text-xs">Nav: Klik Inventory &rarr; Operations &rarr; Scrap</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik menu <strong>Operations &rarr; Scrap &rarr; New</strong></p></div>
+                            <div class="image-container">
+                                <img src="ProsesScrapBarang1.png" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 31%;">1</div>
+                            </div>
+                            <div class="image-container">
+                                <img src="ProsesScrapBarang2.png" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 9%;">1</div>
+                            </div>
+                            <div class="step-item"><span class="step-number">2</span><p>Pilih <strong>product</strong>, isikan <strong>quantity</strong></p></div>
+                            <div class="step-item"><span class="step-number">3</span><p>Pada <strong>scrap location</strong>, pilih: <strong>Virtual Locations/Internal Use</strong></p></div>
+                            <div class="step-item"><span class="step-number">4</span><p>Isikan <strong>scrap reason</strong>, alasan pengeluaran barang jika dibutuhkan</p></div>
+                            <div class="step-item"><span class="step-number">5</span><p>Klik <strong>Validate</strong></p></div>
+                            <div class="image-container">
+                                <img src="ProsesScrapBarang3.png" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 16%;">5</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-section: Adjustment -->
+                    <div class="step-card">
+                        <h4 class="font-bold border-b pb-2 mb-4 uppercase text-sm text-slate-600">Proses inventory adjustment, mengubah quantity pada sistem secara manual tanpa melalui transaksi:</h4>
+                        <div class="nav-path font-bold text-xs">Nav: Klik Inventory &rarr; Operations &rarr; Physical Inventory</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik menu <strong>Operations</strong> lalu pilih <strong>Physical Inventory</strong></p></div>
+                            <div class="image-container">
+                                <img src="InventoryAdjustment1.png" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 12%; --line-w: 65px;">1</div>
+                            </div>
+                            <div class="step-item"><span class="step-number">2</span><p>Klik <strong>New</strong> jika produk belum ada, jika produk sudah pernah dibuat sebelumnya pada halaman ini, bisa search</p></div>
+                            <div class="image-container">
+                                <img src="InventoryAdjustment2.png" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 8%;">2</div>
+                            </div>
+                            <div class="step-item"><span class="step-number">3</span><p>Isikan detail penyesuaian: Location, Product, Lot/Serial Number, Counted Quantity</p></div>
+                            <div class="sub-step-box bg-slate-50 border-slate-200 text-sm">
+                                <p>&bull; <strong>Location</strong> : lokasi barang</p>
+                                <p>&bull; <strong>Product</strong> : produk yang ingin disesuaikan</p>
+                                <p>&bull; <strong>Lot/Serial Number</strong> : apabila produk adalah hasil produksi dan ingin diberi kode produksi</p>
+                                <p>&bull; <strong>Counted Quantity</strong> : jumlah barang sebenarnya setelah dihitung</p>
+                            </div>
+                            <div class="image-container">
+                                <img src="InventoryAdjustment3.png" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 92%;">3</div>
+                            </div>
+                            <div class="step-item"><span class="step-number">4</span><p>Klik <strong>Apply All</strong></p></div>
+                            <div class="step-item"><span class="step-number">5</span><p>Isikan <strong>Inventory Reason</strong>, alasan dilakukan penyesuaian</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Accounting A - Journal Manual -->
+                <div id="accounting" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">5. Accounting & Tax</h2>
+                    <h3 class="text-xl font-bold text-indigo-600 mb-8">A. Proses pembuatan journal manual, untuk pencatatan transaksi kas toko / pabrik</h3>
+                    <div class="step-card">
+                        <div class="nav-path font-bold text-sm">Navigasi : Klik Accounting &rarr; Accounting &rarr; Journal Entries</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik menu <strong>Accounting &rarr; Accounting &rarr; Journal Entries</strong></p></div>
+                            <div class="image-container">
+                                <img src="PembuatanJournalManual1 .png" alt="Journal Entries Navigation" onerror="this.classList.add('broken')">
+                                <div class="marker marker-right" style="top: 10%;">1</div>
+                                <div class="broken-img-msg">Menu Navigation Journal Entries</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">2</span><p>Klik <strong>New</strong></p></div>
+                            <div class="image-container">
+                                <img src="PembuatanJournalManual2.png" alt="Journal Entries New Button" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 10%;">2</div>
+                                <div class="broken-img-msg">Tombol New Journal Entry</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">3</span><p>Isikan <strong>reference</strong>, referensi journal bila ada</p></div>
+                            <div class="step-item"><span class="step-number">4</span><p>Pada <strong>Journal</strong>, pilih buku mana yang akan digunakan</p></div>
+                            <div class="step-item"><span class="step-number">5</span><p>Pada <strong>Journal Items</strong>, isikan :</p></div>
+                            <div class="sub-step-box bg-slate-50 border-slate-200 text-sm text-slate-700">
+                                <p>&bull; <strong>Account</strong> : akun dari transaksi yang ingin dicatat</p>
+                                <p>&bull; <strong>Partner</strong> : kosongkan apabila tidak ada customer / vendor spesifik</p>
+                                <p>&bull; <strong>Label</strong> : keterangan transaksi</p>
+                                <p>&bull; <strong>Debit / Credit</strong> : nilai debit / credit transaksi</p>
+                            </div>
+                            <div class="image-container">
+                                <img src="PembuatanJournalManual3.png" alt="Journal Entry Form" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 36%;">3</div>
+                                <div class="marker marker-right" style="top: 48%;">4</div>
+                                <div class="marker marker-left" style="top: 61%;">5</div>
+                                <div class="broken-img-msg">Form Journal Entry</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">6</span><p>Klik <strong>Post</strong></p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Accounting B - Download XML e-faktur -->
+                <div id="xml-efaktur" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">5. Accounting & Tax</h2>
+                    <h3 class="text-xl font-bold text-indigo-600 mb-8">B. Download XML e-faktur</h3>
+                    <div class="step-card">
+                        <div class="nav-path font-bold text-sm">Navigasi : Klik Accounting &rarr; Customers &rarr; Invoices</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik <strong>Accounting &rarr; Customers &rarr; Invoices</strong></p></div>
+                            <div class="step-item"><span class="step-number">2</span><p><strong>Cara 1 :</strong> Centang invoice yang ingin dicetak XML efaktur</p></div>
+                            <div class="step-item"><span class="step-number">3</span><p>Klik <strong>Action &rarr; Download e-faktur</strong></p></div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                
+                                <div class="image-container">
+                                    <img src="DowloadXML3.png" alt="Download E-Faktur Menu" onerror="this.classList.add('broken')">
+                                    <div class="marker marker-left" style="top: 88%;">3</div>
+                                    <div class="broken-img-msg">Pilih Download e-Faktur</div>
+                                </div>
+                            </div>
+
+                            <div class="border-t pt-8 mt-8">
+                                <div class="step-item"><span class="step-number">4</span><p><strong>Cara 2 :</strong> Buka dokumen invoice yang ingin dicetak XML efaktur, klik gear di kiri atas, pilih download e-faktur</p></div>
+                            </div>
+                            
+                            <div class="important-note">
+                                <p class="text-sm">File XML e-faktur yang sudah didownload kemudian dapat diupload di sistem <strong>coretax</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Accounting C - Upload Coretax Excel -->
+                <div id="upload-coretax" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">5. Accounting & Tax</h2>
+                    <h3 class="text-xl font-bold text-indigo-600 mb-8">C. Upload Coretax Excel</h3>
+                    <div class="step-card">
+                        <div class="nav-path font-bold text-sm">Navigasi : Klik Accounting &rarr; Customers &rarr; Upload Coretax Excel</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Download file excel dari coretax</p></div>
+                            <div class="step-item"><span class="step-number">2</span><p>Klik <strong>Accounting &rarr; Customers &rarr; Upload Coretax Excel</strong></p></div>
+                            <div class="image-container">
+                                <img src="UploadCoretexExcel1.png" alt="Coretax Navigation" onerror="this.classList.add('broken')">
+                                <div class="marker marker-right" style="top: 65%;">2</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">3</span><p>Klik <strong>upload your file</strong> &rarr; pilih file</p></div>
+                            <div class="step-item"><span class="step-number">4</span><p>Klik <strong>Validate</strong></p></div>
+                            <div class="image-container">
+                                <img src="UploadCoretexExcel2.png" alt="Coretax Form" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 16%;">4</div>
+                                <div class="marker marker-left" style="top: 49%;">3</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">5</span><p>Pastikan mapping antara nomor invoice dan nomor faktur sesuai pada table Preview</p></div>
+                            <div class="step-item"><span class="step-number">6</span><p>Klik <strong>Update Tax Number</strong> untuk masukkan nomor faktur ke masing-masing invoice</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Accounting D - Invoice Gabungan -->
+                <div id="invoice-gabungan" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">5. Accounting & Tax</h2>
+                    <h3 class="text-xl font-bold text-indigo-600 mb-8">D. Proses Invoice Gabungan</h3>
+                    <div class="step-card">
+                        <div class="nav-path font-bold text-sm">Navigasi : Klik Accounting &rarr; Customers &rarr; Invoice Gabungan</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik <strong>Accounting &rarr; Customers &rarr; Invoice Gabungan</strong></p></div>
+                            <div class="image-container">
+                                <img src="InvoiceGabungan1.png" alt="Invoice Gabungan Navigation" onerror="this.classList.add('broken')">
+                                <div class="marker marker-right" style="top: 86%;">1</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">2</span><p>Klik <strong>New</strong></p></div>
+                            <div class="image-container">
+                                <img src="InvoiceGabungan2.png" alt="Invoice Gabungan New Button" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 65%;">2</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">3</span><p>Pilih <strong>Customer</strong></p></div>
+                            <div class="image-container">
+                                <img src="InvoiceGabungan3.png" alt="Select Customer" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 36%;">3</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">4</span><p>Pada tabel <strong>Invoice</strong>, klik <strong>add a line</strong> dan pilih invoice customer tersebut, centang invoice yang sesuai, klik select</p></div>
+                            <div class="image-container">
+                                <img src="InvoiceGabungan3.png" alt="Add a Line" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 61%;">4</div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="image-container">
+                                    <img src="InvoiceGabungan4.png" alt="Invoice Selection Popup" onerror="this.classList.add('broken')">
+                                    <div class="marker marker-left" style="top: 40%;">4</div>
+                                </div>
+                                <div class="image-container">
+                                    <img src="InvoiceGabungan5.png" alt="Confirm Selection" onerror="this.classList.add('broken')">
+                                    <div class="marker marker-left" style="top: 88%;">4</div>
+                                </div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">5</span><p>Klik <strong>Confirmasi</strong></p></div>
+                            <div class="image-container">
+                                <img src="InvoiceGabungan6.png" alt="Confirm Button" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 72%;">5</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">6</span><p>Klik <strong>Print</strong> untuk mencetak invoice gabungan</p></div>
+                            <div class="image-container">
+                                <img src="InvoiceGabungan7.png" alt="Print Button" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 72%;">6</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Reporting Sales -->
+                <div id="report-sales" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">6. Laporan Harian</h2>
+                    <h3 class="text-xl font-bold text-rose-600 mb-8">A. Report Daily Sales</h3>
+                    <div class="step-card">
+                        <div class="nav-path font-bold text-sm">Navigasi : Klik Sales &rarr; Reporting &rarr; Daily Sales</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik menu <strong>Reporting</strong> lalu pilih <strong>Daily Sales</strong></p></div>
+                            <div class="image-container">
+                                <img src="ReportDailySales1.png" alt="Daily Sales Navigation" onerror="this.classList.add('broken')">
+                                <div class="marker marker-right" style="top: 79%;">1</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">2</span><p>Secara default, report akan menampilkan data tanggal hari ini</p></div>
+                            <div class="step-item"><span class="step-number">3</span><p>Data yang ditampilkan hanya untuk order yang sudah ada invoice yang sudah posting</p></div>
+                            
+                            <div class="step-item"><span class="step-number">4</span><p>Jika ingin mengubah tanggal, klik <strong>Sales at Date</strong>, pilih tanggal, lalu klik <strong>Generate</strong></p></div>
+                            <div class="image-container">
+                                <img src="ReportDailySales2.png" alt="Sales at Date Button" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 13%;">4</div>
+                            </div>
+
+                            <div class="image-container">
+                                <img src="ReportDailySales3.png" alt="Generate Sales Report" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 25%;">4</div>
+                                <div class="marker marker-left" style="top: 85%;">4</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Reporting Stock -->
+                <div id="report-stock" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">6. Laporan Harian</h2>
+                    <h3 class="text-xl font-bold text-rose-600 mb-8">B. Report Daily Stock</h3>
+                    <div class="step-card">
+                        <div class="nav-path font-bold text-sm">Navigasi : Klik Inventory &rarr; Reporting &rarr; Daily Stock</div>
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik menu <strong>Reporting</strong> lalu pilih <strong>Daily Stock</strong></p></div>
+                            <div class="image-container">
+                                <img src="ReportDailyStocks1.png" alt="Daily Stock Navigation" onerror="this.classList.add('broken')">
+                                <div class="marker marker-right" style="top: 31%;">1</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">2</span><p>Secara default, report akan menampilkan data tanggal hari ini</p></div>
+                            
+                            <div class="step-item"><span class="step-number">3</span><p>Jika ingin mengubah tanggal, klik <strong>Inventory at Date</strong>, pilih tanggal, lalu klik <strong>Generate</strong></p></div>
+                            <div class="image-container">
+                                <img src="ReportDailyStocks2.png" alt="Inventory at Date Button" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 13%;">3</div>
+                            </div>
+
+                            <div class="image-container">
+                                <img src="ReportDailyStocks3.png" alt="Generate Stock Report" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 25%;">3</div>
+                                <div class="marker marker-left" style="top: 85%;">3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security -->
+                <div id="security" class="content-section">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 uppercase">Keamanan</h2>
+                    <h3 class="text-xl font-bold text-slate-600 mb-8">Ganti password</h3>
+                    <div class="step-card">
+                        <div class="space-y-6">
+                            <div class="step-item"><span class="step-number">1</span><p>Klik logo <strong>profile</strong> pada kanan atas &rarr; Klik <strong>preferences</strong></p></div>
+                            <div class="image-container">
+                                <img src="GantiPass1.png" alt="Profile Preferences" onerror="this.classList.add('broken')">
+                                <div class="marker marker-right" style="top: 62%;">1</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">2</span><p>Klik <strong>account security</strong> &rarr; Klik <strong>change password</strong></p></div>
+                            <div class="image-container">
+                                <img src="GantiPass2.png" alt="Account Security Change Password" onerror="this.classList.add('broken')">
+                                <div class="marker marker-left" style="top: 31%;">2</div>
+                            </div>
+
+                            <div class="step-item"><span class="step-number">3</span><p>Isikan password saat ini, klik <strong>confirm password</strong></p></div>
+                            <div class="step-item"><span class="step-number">4</span><p>Isikan password baru, klik <strong>change password</strong></p></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <footer class="mt-20 border-t border-slate-200 p-12 text-center text-slate-400 text-[10px] font-bold tracking-[0.2em] uppercase">
+                Dokumen Internal Asiantex &copy; 2026 - ERP System Guide
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function showSection(id) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            const target = document.getElementById(id);
+            if(target) target.classList.add('active');
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            const activeLink = Array.from(document.querySelectorAll('.sidebar-link')).find(link => {
+                const attr = link.getAttribute('onclick');
+                return attr && attr.includes(`'${id}'`);
+            });
+            if(activeLink) activeLink.classList.add('active');
+            window.scrollTo(0, 0);
+            if(window.innerWidth < 1024) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            }
+        }
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        });
+        window.onload = () => { window.scrollTo(0, 0); };
+    </script>
+</body>
+</html>
